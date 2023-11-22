@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Tweet Frontend - Tweets</title>
+</head>
+<body>
+    <h1>Spring Tweet Frontend - Tweets</h1>
+
+    <ul id="tweetList"></ul>
+
+    <script>
+        // Função para carregar e exibir todos os tweets
+        async function loadTweets() {
+            const response = await fetch('http://localhost:8080/api/tweets');
+            const tweets = await response.json();
+
+            const tweetList = document.getElementById('tweetList');
+            tweetList.innerHTML = ''; // Limpa a lista antes de adicionar os tweets
+
+            tweets.forEach(tweet => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Tweet ID: ${tweet.id}, Content: ${tweet.content}`;
+                tweetList.appendChild(listItem);
+            });
+        }
+
+        // Carrega e exibe os tweets ao carregar a página
+        loadTweets();
+    </script>
+   
+    <!-- Link para a página index.html -->
+    <a href="index.html">Post New Tweets</a>
+</body>
+</html>

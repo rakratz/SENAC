@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Spring Tweet Frontend</title>
+</head>
+
+<body>
+	<h1>Spring Tweet Frontend</h1>
+
+	<form id="tweetForm">
+		<label for="content">Tweet Content:</label>
+		<input type="text" id="content" name="content" required>
+
+		<label for="userid">User ID:</label>
+		<input type="number" id="userid" name="userid" required>
+
+		<button type="button" onclick="createTweet()">Create Tweet</button>
+		<p id="successMessage" style="color: green;"></p>
+	</form>
+
+	<!-- Link para a página tweets.html -->
+	<a href="tweets.html">Ver Tweets</a>
+
+	<script>
+		async function createTweet() {
+			const content = document.getElementById('content').value;
+			const userid = document.getElementById('userid').value;
+
+			const tweet = {
+				content: content,
+				tweetUser: {
+					userid: parseInt(userid)
+				}
+			};
+
+			try {
+				const response = await fetch('http://localhost:8080/api/tweets', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(tweet),
+				});
+
+				const data = await response.json();
+
+				console.log('Success:', data);
+
+			 // Exibe a mensagem de sucesso na tela
+				document.getElementById('successMessage').textContent = 'Tweet postado com sucesso!';
+			} catch (error) {
+				console.error('Error:', error);
+			}
+		}
+	</script>
+</body>
+
+</html>
